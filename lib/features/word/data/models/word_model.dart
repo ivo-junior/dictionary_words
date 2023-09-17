@@ -1,6 +1,12 @@
 // ignore_for_file: prefer_null_aware_operators
 
 class WordModel {
+  String? word;
+  List<Results>? results;
+  Syllables? syllables;
+  Pronunciation? pronunciation;
+  double? frequency;
+
   WordModel(
       {this.word,
       this.results,
@@ -19,15 +25,13 @@ class WordModel {
     syllables = json['syllables'] != null
         ? Syllables.fromJson(json['syllables'])
         : null;
-    pronunciation = json['pronunciation'];
+    pronunciation = json['pronunciation'] != null
+        ? json['pronunciation'] is String
+            ? Pronunciation(all: json['pronunciation'])
+            : Pronunciation.fromJson(json['pronunciation'])
+        : null;
     frequency = json['frequency'];
   }
-
-  double? frequency;
-  String? pronunciation;
-  List<Results>? results;
-  Syllables? syllables;
-  String? word;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -104,6 +108,22 @@ class Syllables {
     final Map<String, dynamic> data = {};
     data['count'] = count;
     data['list'] = list;
+    return data;
+  }
+}
+
+class Pronunciation {
+  String? all;
+
+  Pronunciation({this.all});
+
+  Pronunciation.fromJson(Map<String, dynamic> json) {
+    all = json['all'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['all'] = all;
     return data;
   }
 }

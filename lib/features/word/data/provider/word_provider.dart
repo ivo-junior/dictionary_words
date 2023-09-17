@@ -21,7 +21,11 @@ class WordApi {
 
       var response = await get(uri, headers: headers);
 
-      return json.decode(response.body);
+      const utf8Decoder = Utf8Decoder();
+
+      final responseDecoder = utf8Decoder.convert(response.bodyBytes);
+
+      return json.decode(responseDecoder);
     } on HttpException catch (error) {
       snack('Error', "Erro!, Houve um erro na consulta!");
       return {"erro": error};
