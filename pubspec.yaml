@@ -1,0 +1,32 @@
+name: dictionary_words
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+dependencies:
+  another_flushbar: ^1.12.30
+  auto_size_text: ^3.0.0
+  firebase_auth: ^4.9.0
+  firebase_core: ^2.15.1
+  firebase_database: ^10.2.5
+  firebase_ui_database: ^1.3.9
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.1.0
+  flutter_localization: ^0.1.13
+  get: ^4.6.5
+  google_fonts: ^6.0.0
+  mask_text_input_formatter: ^2.5.0
+  pinput: ^3.0.1
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
