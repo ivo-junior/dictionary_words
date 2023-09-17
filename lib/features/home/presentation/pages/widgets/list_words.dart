@@ -1,5 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:dictionary_words/features/home/presentation/controllers/home_controller.dart';
 import 'package:dictionary_words/features/home/presentation/pages/widgets/word_widget.dart';
+import 'package:dictionary_words/features/word/data/models/word_model.dart';
 import 'package:dictionary_words/global_components/snack_bar.dart';
 import 'package:dictionary_words/global_components/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +21,13 @@ class ListWords extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Center(
-          child: Text(
-            'Word List',
-            style: GoogleFonts.commissioner(
-                color: AppColors.text.darkBlue,
-                height: 2,
-                fontSize: 26,
-                fontWeight: FontWeight.w700),
-          ),
+        title: Text(
+          'Word List',
+          style: GoogleFonts.commissioner(
+              color: AppColors.text.darkBlue,
+              height: 2,
+              fontSize: 26,
+              fontWeight: FontWeight.w700),
         ),
       ),
       body: Padding(
@@ -56,12 +57,20 @@ class ListWords extends StatelessWidget {
                   snapshot.fetchMore();
                 }
                 final word = snapshot.docs[index].key as String;
+                WordModel? wordModel;
+
+                if (_homeController.historyList.isNotEmpty) {
+                  for (var w in _homeController.historyList) {
+                    wordModel = w.word == word ? w : null;
+                  }
+                }
+
                 return Center(
-                  child: WordWidget(
-                      homeController: _homeController,
-                      onTap: () => {},
-                      word: word),
-                );
+                    child: WordWidget(
+                  homeController: _homeController,
+                  word: wordModel.isNull ? word : null,
+                  wordModel: wordModel.isNull ? null : wordModel,
+                ));
               },
             );
           },

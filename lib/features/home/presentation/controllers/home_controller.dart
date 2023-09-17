@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dictionary_words/features/word/data/models/word_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class HomeController extends GetxController
   final wordsQuery = FirebaseDatabase.instance.ref();
 
   RxList<String> favoriteList = RxList([]);
+  RxList<WordModel> historyList = RxList([]);
 
   @override
   void onInit() {
@@ -51,6 +53,13 @@ class HomeController extends GetxController
       favoriteList.remove(word);
     } else {
       favoriteList.add(word);
+    }
+    update();
+  }
+
+  void toogleHistoryWord(WordModel wordModel) {
+    if (!historyList.contains(wordModel)) {
+      historyList.add(wordModel);
     }
     update();
   }

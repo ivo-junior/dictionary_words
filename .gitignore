@@ -46,3 +46,4 @@ android/app/google-services.json
 macos/Flutter/GeneratedPluginRegistrant.swift
 ios/firebase_app_id_file.json
 lib/firebase_options.dart
+lib/global_components/base_url.dart

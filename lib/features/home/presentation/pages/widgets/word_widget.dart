@@ -1,4 +1,5 @@
 import 'package:dictionary_words/core/routes/app_routes.dart';
+import 'package:dictionary_words/features/word/data/models/word_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,18 +9,18 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 class WordWidget extends StatelessWidget {
   final HomeController homeController;
-  final Function onTap;
-  final String word;
+  final String? word;
+  final WordModel? wordModel;
 
   const WordWidget({
     super.key,
     required this.homeController,
-    required this.onTap,
-    required this.word,
+    this.word,
+    this.wordModel,
   });
 
   void goToWordPage() {
-    Get.toNamed(AppRoutes.WORD_PAGE.value, arguments: word);
+    Get.toNamed(AppRoutes.WORD_PAGE.value, arguments: word ?? wordModel);
   }
 
   @override
@@ -37,7 +38,7 @@ class WordWidget extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 16),
           child: AutoSizeText(
-            word,
+            word ?? wordModel!.word!,
             style: GoogleFonts.commissioner(
                 letterSpacing: 1,
                 color: AppColors.text.white80,

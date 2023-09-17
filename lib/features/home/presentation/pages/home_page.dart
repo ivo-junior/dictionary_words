@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:dictionary_words/features/home/presentation/pages/widgets/list_history.dart';
 import 'package:dictionary_words/features/home/presentation/pages/widgets/list_words.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -143,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                       controller: controller.tabController,
                       children: [
                         ListWords(),
-                        const OffPage(),
+                        ListHistory(),
                         ListFavorites(),
                       ]);
                 }

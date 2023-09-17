@@ -1,3 +1,4 @@
+import 'package:dictionary_words/core/routes/app_routes.dart';
 import 'package:dictionary_words/features/home/presentation/controllers/home_controller.dart';
 import 'package:dictionary_words/features/word/data/models/word_model.dart';
 import 'package:dictionary_words/features/word/data/repository/word_repository.dart';
@@ -7,33 +8,41 @@ import 'package:get/get.dart';
 class WordController extends GetxController {
   bool isLoading = true;
   bool isFavorit = false;
-  WordModel? wordModel = WordModel();
 
   WordRepository wordRepository = Get.find();
   final HomeController _homeController = Get.find();
 
-  final String word = Get.arguments;
-
+  String? word;
+  WordModel? wordModel;
   RxInt currentCount = RxInt(0);
   Rx<Results> currentResult = Rx(Results());
 
   @override
   void onInit() {
     super.onInit();
-
-    initiWord();
+    var arg = Get.arguments;
+    if (arg is String) {
+      word = arg;
+      initiWord();
+    } else {
+      wordModel = arg;
+      alterableResult();
+      isLoading = false;
+    }
   }
 
   void initiWord() async {
-    wordModel = await wordRepository.getWord(word);
+    wordModel = await wordRepository.getWord(word!);
     if (wordModel == null) {
-      Get.back();
+      Get.offAndToNamed(AppRoutes.HOME.value);
       snack("Not Found", "This word not found in Word API.");
+    } else {
+      isFavorit = _homeController.favoriteList.contains(wordModel!.word!);
+      alterableResult();
+      toogleHistory();
+      isLoading = false;
+      update();
     }
-    isFavorit = _homeController.favoriteList.contains(wordModel!.word!);
-    alterableResult();
-    isLoading = false;
-    update();
   }
 
   void toogleFavorit() {
@@ -42,8 +51,14 @@ class WordController extends GetxController {
     update();
   }
 
+  void toogleHistory() {
+    _homeController.toogleHistoryWord(wordModel!);
+    update();
+  }
+
   void alterableResult() {
-    currentResult.value =
-        wordModel != null ? wordModel!.results![currentCount.value] : Results();
+    currentResult.value = wordModel != null && wordModel!.results != null
+        ? wordModel!.results![currentCount.value]
+        : Results();
   }
 }

@@ -82,6 +82,17 @@ class WordPage extends GetView<WordController> {
                                 fontSize: 26,
                                 fontWeight: FontWeight.w700),
                           ),
+                          if (controller.wordModel!.syllables != null)
+                            AutoSizeText(
+                              controller.wordModel!.syllables!.list!.join('- '),
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.commissioner(
+                                  color: AppColors.text.darkBlue,
+                                  height: 2,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700),
+                            ),
                         ],
                       ),
                     ),
@@ -140,94 +151,116 @@ class WordPage extends GetView<WordController> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "${controller.currentCount.value + 1}/${controller.wordModel!.results!.length}",
-                            style: GoogleFonts.commissioner(
-                                color: AppColors.text.darkBlue,
-                                height: 2,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.white),
-                      height: 200,
-                      child: SingleChildScrollView(
-                        child: Column(
+                    if (controller.wordModel!.results != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            InformationElement(
-                                title: "Definition:",
-                                content:
-                                    controller.currentResult.value.definition!),
-                            if (controller.currentResult.value.synonyms != null)
-                              InformationElement(
-                                  title: "Synonymus:",
-                                  content: controller
-                                      .currentResult.value.synonyms!
-                                      .join(', ')),
-                            if (controller.currentResult.value.synonyms != null)
-                              InformationElement(
-                                  title: "Typer Of:",
-                                  content: controller
-                                      .currentResult.value.typeOf!
-                                      .join(', ')),
-                            if (controller.currentResult.value.hasTypes != null)
-                              InformationElement(
-                                  title: "Has Types:",
-                                  content: controller
-                                      .currentResult.value.hasTypes!
-                                      .join(', ')),
-                            if (controller.currentResult.value.derivation !=
-                                null)
-                              InformationElement(
-                                  title: "Derivations:",
-                                  content: controller
-                                      .currentResult.value.derivation!
-                                      .join(', '))
+                            Text(
+                              "${controller.currentCount.value + 1}/${controller.wordModel!.results!.length}",
+                              style: GoogleFonts.commissioner(
+                                  color: AppColors.text.darkBlue,
+                                  height: 2,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700),
+                            ),
                           ],
                         ),
                       ),
-                    ),
                     const SizedBox(
-                      height: 18,
+                      height: 8,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CustomButton(
-                            onPressed: () {
-                              controller.currentCount.value--;
-                              controller.alterableResult();
-                              controller.update();
-                            },
-                            label: "Voltar",
-                            isDisabled: controller.currentCount.value == 0),
-                        CustomButton(
-                            onPressed: () {
-                              controller.currentCount.value++;
-                              controller.alterableResult();
-                              controller.update();
-                            },
-                            isDisabled: controller.wordModel!.results == null ||
-                                controller.wordModel!.results!.length == 1 ||
-                                controller.currentCount.value ==
-                                    controller.wordModel!.results!.length - 1,
-                            label: "Próximo"),
-                      ],
-                    ),
+                    if (controller.wordModel!.results != null) ...[
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.white),
+                        height: 200,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              InformationElement(
+                                  title: "Definition:",
+                                  content: controller
+                                      .currentResult.value.definition!),
+                              if (controller.currentResult.value.synonyms !=
+                                  null)
+                                InformationElement(
+                                    title: "Synonymus:",
+                                    content: controller
+                                        .currentResult.value.synonyms!
+                                        .join(', ')),
+                              if (controller.currentResult.value.typeOf != null)
+                                InformationElement(
+                                    title: "Typer Of:",
+                                    content: controller
+                                        .currentResult.value.typeOf!
+                                        .join(', ')),
+                              if (controller.currentResult.value.hasTypes !=
+                                  null)
+                                InformationElement(
+                                    title: "Has Types:",
+                                    content: controller
+                                        .currentResult.value.hasTypes!
+                                        .join(', ')),
+                              if (controller.currentResult.value.derivation !=
+                                  null)
+                                InformationElement(
+                                    title: "Derivations:",
+                                    content: controller
+                                        .currentResult.value.derivation!
+                                        .join(', '))
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          CustomButton(
+                              onPressed: () {
+                                controller.currentCount.value--;
+                                controller.alterableResult();
+                                controller.update();
+                              },
+                              label: "Voltar",
+                              isDisabled: controller.currentCount.value == 0),
+                          CustomButton(
+                              onPressed: () {
+                                controller.currentCount.value++;
+                                controller.alterableResult();
+                                controller.update();
+                              },
+                              isDisabled: controller.wordModel!.results ==
+                                      null ||
+                                  controller.wordModel!.results!.length == 1 ||
+                                  controller.currentCount.value ==
+                                      controller.wordModel!.results!.length - 1,
+                              label: "Próximo"),
+                        ],
+                      ),
+                    ] else
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.white),
+                        height: 200,
+                        child: Text(
+                          "No Information",
+                          style: GoogleFonts.commissioner(
+                              color: AppColors.text.darkBlue,
+                              height: 2,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
                     const SizedBox(
                       height: 28,
                     ),
