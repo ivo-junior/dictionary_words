@@ -37,12 +37,14 @@ class WordPage extends GetView<WordController> {
                           onPressed: () => Get.back(),
                         ),
                         IconButton(
-                          icon: const Icon(
-                            Icons.favorite_border,
+                          icon: Icon(
+                            controller.isFavorit
+                                ? Icons.favorite
+                                : Icons.favorite_border,
                             color: AppColors.darkBlue,
                             size: 32,
                           ),
-                          onPressed: () {},
+                          onPressed: () => controller.toogleFavorit(),
                         ),
                       ],
                     ),

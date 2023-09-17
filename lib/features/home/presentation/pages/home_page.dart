@@ -9,6 +9,8 @@ import 'package:dictionary_words/features/home/presentation/pages/widgets/off_pa
 import 'package:dictionary_words/global_components/shimmer.dart';
 import 'package:dictionary_words/global_components/theme/app_colors.dart';
 
+import 'widgets/list_favorites.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -142,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         ListWords(),
                         const OffPage(),
-                        const OffPage(),
+                        ListFavorites(),
                       ]);
                 }
               }),

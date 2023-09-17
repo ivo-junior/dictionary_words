@@ -31,6 +31,8 @@ class HomeController extends GetxController
 
   final wordsQuery = FirebaseDatabase.instance.ref();
 
+  RxList<String> favoriteList = RxList([]);
+
   @override
   void onInit() {
     super.onInit();
@@ -42,6 +44,15 @@ class HomeController extends GetxController
   void onClose() {
     super.onClose();
     _timerResponse?.cancel();
+  }
+
+  void toogleFavoritWord(String word) {
+    if (favoriteList.contains(word)) {
+      favoriteList.remove(word);
+    } else {
+      favoriteList.add(word);
+    }
+    update();
   }
 
   void handleIsLoading(bool status) {
