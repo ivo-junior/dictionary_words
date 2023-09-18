@@ -31,9 +31,11 @@ class HomeController extends GetxController
   FirebaseAuth? auth = Get.arguments;
   User? user;
 
-  final wordsQuery = FirebaseDatabase.instance.ref().child("words");
+  final wordsRef = FirebaseDatabase.instance.ref().child("words");
+  final _favoritsRef = FirebaseDatabase.instance.ref().child("favorits");
 
-  RxList<String> favoriteList = RxList([]);
+  RxMap<String, WordModel> favoriteList = RxMap({});
+
   RxMap<String, WordModel> historyList = RxMap({});
 
   final HiveService _hiveService = Get.find();
@@ -42,24 +44,39 @@ class HomeController extends GetxController
   void onInit() {
     super.onInit();
     auth ??= FirebaseAuth.instance;
+    initFavoritList();
     getHistory();
     user = auth!.currentUser;
-    // _hiveService.cleanBoxes("HistoryWords");
   }
 
   @override
   void onClose() {
     super.onClose();
-    _timerResponse?.cancel();
+    timerResponse?.cancel();
   }
 
-  void toogleFavoritWord(String word) {
-    if (favoriteList.contains(word)) {
-      favoriteList.remove(word);
+  void toogleFavoritWord(WordModel word) {
+    if (favoriteList[word.word] != null) {
+      favoriteList.remove(word.word);
+      _favoritsRef.child(word.word!).remove();
     } else {
-      favoriteList.add(word);
+      favoriteList.addAll({word.word!: word});
+      _favoritsRef.child(word.word!).set(word.toJson());
     }
     update();
+  }
+
+  Future<void> initFavoritList() async {
+    var data = await _favoritsRef.once();
+
+    if (data.snapshot.value != null) {
+      var val = data.snapshot.value as Map;
+
+      val.forEach((key, value) {
+        var w = WordModel.fromJson(value);
+        favoriteList.addAll({w.word!: w});
+      });
+    }
   }
 
   Future<void> updateHistoryList() async {
@@ -80,7 +97,7 @@ class HomeController extends GetxController
     update();
   }
 
-  Timer? _timerResponse;
+  Timer? timerResponse;
 
   void changeRoutBodyChild(String route) {
     currentRoutBodyChild.value = route;

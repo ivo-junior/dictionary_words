@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'off_page.dart';
+
 class ListFavorites extends StatelessWidget {
   ListFavorites({super.key});
 
@@ -16,7 +18,9 @@ class ListFavorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_homeController.favoriteList.isNotEmpty) {
+    if (_homeController.currentRoutBodyChild.value == "/off_page") {
+      return const OffPage();
+    } else if (_homeController.favoriteList.isNotEmpty) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -38,15 +42,15 @@ class ListFavorites extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3),
             itemBuilder: (context, index) {
-              final word = _homeController.favoriteList[index];
+              final word = _homeController.favoriteList.values.elementAt(index);
               WordModel? wordModel;
               if (_homeController.historyList.isNotEmpty) {
-                 wordModel = _homeController.historyList[word];                  
-                }
+                wordModel = _homeController.historyList[word.word];
+              }
               return Center(
                 child: WordWidget(
                   homeController: _homeController,
-                  word: wordModel.isNull ? word : null,
+                  word: wordModel.isNull ? word.word! : null,
                   wordModel: wordModel.isNull ? null : wordModel,
                 ),
               );

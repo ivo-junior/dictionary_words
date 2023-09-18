@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dictionary_words/features/home/presentation/controllers/home_controller.dart';
-import 'package:dictionary_words/features/home/presentation/pages/widgets/off_page.dart';
 import 'package:dictionary_words/global_components/shimmer.dart';
 import 'package:dictionary_words/global_components/theme/app_colors.dart';
 
@@ -137,17 +136,13 @@ class _HomePageState extends State<HomePage> {
                 ];
               },
               body: Builder(builder: (context) {
-                if (controller.currentRoutBodyChild.value == "/off_page") {
-                  return const OffPage();
-                } else {
-                  return TabBarView(
-                      controller: controller.tabController,
-                      children: [
-                        ListWords(),
-                        ListHistory(),
-                        ListFavorites(),
-                      ]);
-                }
+                return TabBarView(
+                    controller: controller.tabController,
+                    children: [
+                      ListWords(),
+                      ListHistory(),
+                      ListFavorites(),
+                    ]);
               }),
             ),
           );

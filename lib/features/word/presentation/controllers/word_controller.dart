@@ -12,7 +12,7 @@ class WordController extends GetxController {
 
   WordRepository wordRepository = Get.find();
   final HomeController _homeController = Get.find();
-  HiveService _hiveService = Get.find();
+  final HiveService _hiveService = Get.find();
 
   String? word;
   WordModel? wordModel;
@@ -23,11 +23,14 @@ class WordController extends GetxController {
   void onInit() {
     super.onInit();
     var arg = Get.arguments;
+
     if (arg is String) {
       word = arg;
+      isFavorit = _homeController.favoriteList[word!] != null;
       initiWord();
     } else {
       wordModel = arg;
+      isFavorit = _homeController.favoriteList[wordModel!.word!] != null;
       alterableResult();
       isLoading = false;
     }
@@ -39,7 +42,6 @@ class WordController extends GetxController {
       Get.offAndToNamed(AppRoutes.HOME.value);
       snack("Not Found", "This word not found in Word API.");
     } else {
-      isFavorit = _homeController.favoriteList.contains(wordModel!.word!);
       alterableResult();
       toogleHistory();
       isLoading = false;
@@ -48,7 +50,7 @@ class WordController extends GetxController {
   }
 
   void toogleFavorit() {
-    _homeController.toogleFavoritWord(wordModel!.word!);
+    _homeController.toogleFavoritWord(wordModel!);
     isFavorit = !isFavorit;
     update();
   }
