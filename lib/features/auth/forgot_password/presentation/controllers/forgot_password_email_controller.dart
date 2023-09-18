@@ -4,15 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dictionary_words/core/routes/auth_routes.dart';
-import 'package:dictionary_words/global_components/layouts/auth_layout/auth_layout_animation_controller.dart';
 
 class ForgotPasswordEmailController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
   final errorMessage = RxString('');
-
-  final AuthLayoutAnimationController _animationController = Get.find();
 
   final FirebaseAuth _auth = Get.arguments;
 
@@ -32,7 +29,6 @@ class ForgotPasswordEmailController extends GetxController {
   void goToCodeVerifyPage() {
     Get.offAllNamed(AuthRoutes.FORGOT_PASSWORD_CODE_VERIFY.value,
         arguments: emailController.text);
-    _animationController.resetSheetScrollPosition();
   }
 
   void resetDefaultState() {
@@ -40,7 +36,6 @@ class ForgotPasswordEmailController extends GetxController {
   }
 
   void goToLogin() {
-    _animationController.resetSheetScrollPosition();
     formKey.currentState!.reset();
 
     Get.offAllNamed(AuthRoutes.LOGIN.value);

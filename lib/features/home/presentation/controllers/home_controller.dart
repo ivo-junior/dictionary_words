@@ -22,6 +22,7 @@ class HomeController extends GetxController
   late ScrollController scrollController = ScrollController();
 
   bool isLoading = true;
+  bool isLogin = false;
   bool hasInternet = true;
 
   String? name = "";
@@ -85,6 +86,13 @@ class HomeController extends GetxController
       var wordModel = WordModel.fromJson(w);
       historyList.addAll({wordModel.word!: wordModel});
     }
+  }
+
+  Future<void> logout() async {
+    await auth!.signOut();
+    user = null;
+    Get.back();
+    update();
   }
 
   void handleIsLoading(bool status) {

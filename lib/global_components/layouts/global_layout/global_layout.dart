@@ -1,7 +1,7 @@
+import 'package:dictionary_words/global_components/layouts/auth_layout/widgets/auth_login_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dictionary_words/core/routes/auth_routes.dart';
-import 'package:dictionary_words/global_components/layouts/auth_layout/auth_layout.dart';
 import 'package:dictionary_words/global_components/layouts/global_layout/global_layout_controller.dart';
 
 // ignore: must_be_immutable
@@ -30,7 +30,7 @@ class _GlobalLayoutState extends State<GlobalLayout> {
     final currentRoute = _globalLayoutController.currentRouteName.value;
 
     if (authRoutes.contains(currentRoute)) {
-      return AuthLayout(child: widget.child);
+      return AuthLoginBottomSheet(child: widget.child);
     } else {
       return Scaffold(body: widget.child);
     }

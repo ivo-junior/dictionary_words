@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:dictionary_words/global_components/buttons/custom_text_button.dart';
 import 'package:dictionary_words/global_components/custom_alert.dart';
 import 'package:dictionary_words/global_components/inputs/custom_email_input.dart';
@@ -68,16 +67,6 @@ class LoginForms extends StatelessWidget {
                       onPressed: _loginController.submit,
                     )),
             const SizedBox(height: 10),
-            Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'ou logar com',
-                  style: GoogleFonts.commissioner(
-                    color: AppColors.text.labelColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 13.0,
-                  ),
-                )),
             Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Row(

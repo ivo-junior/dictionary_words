@@ -9,15 +9,11 @@ class SplashController extends GetxController {
 
   int durationAnimation = 500;
 
-  User? usuario;
-
-  RxBool isLoading = RxBool(true);
   RxBool first = RxBool(true);
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    _authCheck();
   }
 
   @override
@@ -26,17 +22,8 @@ class SplashController extends GetxController {
       first.value = false;
     });
     Timer(const Duration(milliseconds: 2500), () {
-      if (isLoading.value) {
-        Get.offAllNamed(AppRoutes.HOME.value, arguments: _auth);
-      }
+      Get.offAllNamed(AppRoutes.HOME.value, arguments: _auth);
     });
     super.onReady();
-  }
-
-  _authCheck() {
-    _auth.authStateChanges().listen((User? user) {
-      usuario = (user == null) ? null : user;
-      isLoading.value = (user == null) ? true : false;
-    });
   }
 }

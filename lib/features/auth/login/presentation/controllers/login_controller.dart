@@ -1,8 +1,8 @@
+import 'package:dictionary_words/core/routes/app_routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dictionary_words/core/routes/auth_routes.dart';
-import 'package:dictionary_words/global_components/layouts/auth_layout/auth_layout_animation_controller.dart';
 
 class LoginController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -13,9 +13,6 @@ class LoginController extends GetxController {
   final errorMessage = RxString('');
 
   final isLoading = RxBool(false);
-
-  final AuthLayoutAnimationController _authAnimationController =
-      Get.put(AuthLayoutAnimationController(), permanent: true);
 
   FirebaseAuth? auth = Get.arguments;
 
@@ -37,7 +34,6 @@ class LoginController extends GetxController {
     emailController.clear();
     passwordController.clear();
     formKey.currentState!.reset();
-    _authAnimationController.resetSheetScrollPosition();
   }
 
   void goToSignUp() {
@@ -58,18 +54,19 @@ class LoginController extends GetxController {
         await auth!.signInWithEmailAndPassword(
             email: emailController.text, password: passwordController.text);
         user = auth!.currentUser;
-        _authAnimationController.resetValues();
-        // goToTermsCondictions();
+        Get.offNamed(AppRoutes.HOME.value);
         isLoading.value = false;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          errorMessage.value = 'A senha é muito fraca.';
-        } else if (e.code == 'email-already-in-use') {
+      } on FirebaseAuthException catch (e) {        
+        if (e.code == 'invalid-email') {
+          errorMessage.value = 'Email inválido.';
+        } else if (e.code == 'wrong-password') {
           errorMessage.value = 'Email já está em uso.';
         } else if (e.code == 'user-not-found') {
           errorMessage.value = 'Usuário não encontrado.';
         } else if (e.code == 'user-disabled') {
           errorMessage.value = 'Usuário desabilitado.';
+        } else if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+          errorMessage.value = 'Email ou senha inválido.';
         }
         isLoading.value = false;
         update();

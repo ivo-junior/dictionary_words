@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
 import 'package:dictionary_words/core/routes/auth_routes.dart';
-import 'package:dictionary_words/global_components/layouts/auth_layout/auth_layout_animation_controller.dart';
 
 class ForgotPasswordChangePasswordController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -14,7 +13,6 @@ class ForgotPasswordChangePasswordController extends GetxController {
   final observablePassword = RxString('');
   final confirmPasswordController = TextEditingController();
 
-  final AuthLayoutAnimationController _animationController = Get.find();
 
   final String email = Get.arguments[0];
   final String code = Get.arguments[1];
@@ -29,7 +27,6 @@ class ForgotPasswordChangePasswordController extends GetxController {
 
   void goToSucessPage() {
     Get.offAllNamed(AuthRoutes.FORGOT_PASSWORD_SUCESS.value);
-    _animationController.resetSheetScrollPosition();
   }
 
   void resetDefaultState() {

@@ -1,13 +1,17 @@
+import 'package:dictionary_words/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:dictionary_words/global_components/labels/forms_subtitle.dart';
 import 'package:dictionary_words/global_components/labels/forms_title.dart';
 import 'package:dictionary_words/global_components/buttons/custom_button.dart';
 import 'package:dictionary_words/global_components/theme/app_colors.dart';
+import 'package:get/get.dart';
 
 class SignUpSucess extends StatelessWidget {
   const SignUpSucess({super.key});
 
-  void goToHome() {}
+  void goToHome() {
+    Get.offNamed(AppRoutes.HOME.value);
+  }
 
   @override
   Widget build(BuildContext context) {

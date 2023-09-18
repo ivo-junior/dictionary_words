@@ -1,11 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dictionary_words/core/routes/auth_routes.dart';
-import 'package:dictionary_words/global_components/layouts/auth_layout/auth_layout_animation_controller.dart';
 
 class SignUpController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -18,12 +16,8 @@ class SignUpController extends GetxController {
   final errorMessage = RxString('');
   final isLoading = RxBool(false);
 
-  final AuthLayoutAnimationController _animationController = Get.find();
-
   final FirebaseAuth _auth = Get.arguments;
   User? user;
-  final _userProfileRef =
-      FirebaseDatabase.instance.ref().child('user_profiles');
   bool buttonPressed = false;
 
   @override
@@ -41,7 +35,6 @@ class SignUpController extends GetxController {
 
   void goToSucessPage() {
     Get.offAllNamed(AuthRoutes.SIGNUP_SUCESS.value, arguments: _auth);
-    _animationController.resetSheetScrollPosition();
   }
 
   void resetDefaultState() {
@@ -51,7 +44,6 @@ class SignUpController extends GetxController {
 
   void backToLoginPage() {
     Get.back();
-    _animationController.resetSheetScrollPosition();
   }
 
   void updatePasswordObservable() {
@@ -67,18 +59,7 @@ class SignUpController extends GetxController {
             email: emailController.text, password: passwordController.text);
 
         user = _auth.currentUser;
-
-        if (user != null) {
-          var snapshot = await _userProfileRef.child(user!.uid).once();
-          if (!snapshot.snapshot.exists) {
-            await _userProfileRef.child(user!.uid).set({
-              'name': nicknameController.text,
-              'email': user!.email,
-              'birthday': null,
-            });
-          }
-        }
-        _animationController.resetSheetScrollPosition();
+        
         isLoading.value = false;
         goToSucessPage();
       } on FirebaseAuthException catch (e) {
