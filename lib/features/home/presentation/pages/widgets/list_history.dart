@@ -40,7 +40,7 @@ class ListHistory extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3),
             itemBuilder: (context, index) {
-              final word = _homeController.historyList[index];
+              final word = _homeController.historyList.values.elementAt(index);
               return Center(
                 child: WordWidget(
                     homeController: _homeController, wordModel: word),

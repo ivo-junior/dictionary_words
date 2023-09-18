@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:dictionary_words/features/word/data/models/word_model.dart';
+import 'package:dictionary_words/global_components/services/hive_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class HomeController extends GetxController
   late TabController tabController = TabController(length: 3, vsync: this);
   late ScrollController scrollController = ScrollController();
 
-  bool isLoading = false;
+  bool isLoading = true;
   bool hasInternet = true;
 
   String? name = "";
@@ -30,16 +31,20 @@ class HomeController extends GetxController
   FirebaseAuth? auth = Get.arguments;
   User? user;
 
-  final wordsQuery = FirebaseDatabase.instance.ref();
+  final wordsQuery = FirebaseDatabase.instance.ref().child("words");
 
   RxList<String> favoriteList = RxList([]);
-  RxList<WordModel> historyList = RxList([]);
+  RxMap<String, WordModel> historyList = RxMap({});
+
+  final HiveService _hiveService = Get.find();
 
   @override
   void onInit() {
     super.onInit();
     auth ??= FirebaseAuth.instance;
+    getHistory();
     user = auth!.currentUser;
+    // _hiveService.cleanBoxes("HistoryWords");
   }
 
   @override
@@ -57,11 +62,12 @@ class HomeController extends GetxController
     update();
   }
 
-  void toogleHistoryWord(WordModel wordModel) {
-    if (!historyList.contains(wordModel)) {
-      historyList.add(wordModel);
+  Future<void> updateHistoryList() async {
+    var history = await _hiveService.getBoxes("HistoryWords");
+    for (var w in history) {
+      var wordModel = WordModel.fromJson(w);
+      historyList.addAll({wordModel.word!: wordModel});
     }
-    update();
   }
 
   void handleIsLoading(bool status) {
@@ -79,5 +85,13 @@ class HomeController extends GetxController
   void changeRoutBodyChild(String route) {
     currentRoutBodyChild.value = route;
     update();
+  }
+
+  void getHistory() async {
+    bool exists = await _hiveService.isExists(boxName: "HistoryWords");
+    if (exists) {
+      updateHistoryList();
+    }
+    handleIsLoading(false);
   }
 }

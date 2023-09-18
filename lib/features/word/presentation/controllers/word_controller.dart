@@ -2,6 +2,7 @@ import 'package:dictionary_words/core/routes/app_routes.dart';
 import 'package:dictionary_words/features/home/presentation/controllers/home_controller.dart';
 import 'package:dictionary_words/features/word/data/models/word_model.dart';
 import 'package:dictionary_words/features/word/data/repository/word_repository.dart';
+import 'package:dictionary_words/global_components/services/hive_service.dart';
 import 'package:dictionary_words/global_components/snack_bar.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ class WordController extends GetxController {
 
   WordRepository wordRepository = Get.find();
   final HomeController _homeController = Get.find();
+  HiveService _hiveService = Get.find();
 
   String? word;
   WordModel? wordModel;
@@ -51,8 +53,13 @@ class WordController extends GetxController {
     update();
   }
 
-  void toogleHistory() {
-    _homeController.toogleHistoryWord(wordModel!);
+  Future<void> toogleHistory() async {
+    if (!_homeController.historyList.keys.contains(wordModel!.word)) {
+      await _hiveService.addBoxes([wordModel!.toJson()], "HistoryWords");
+
+      _homeController.updateHistoryList();
+    }
+
     update();
   }
 

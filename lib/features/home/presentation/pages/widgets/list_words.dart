@@ -60,9 +60,10 @@ class ListWords extends StatelessWidget {
                 WordModel? wordModel;
 
                 if (_homeController.historyList.isNotEmpty) {
-                  for (var w in _homeController.historyList) {
-                    wordModel = w.word == word ? w : null;
-                  }
+                 wordModel = _homeController.historyList[word];
+                  // for (var w in _homeController.historyList) {
+                  //    w.word == word ? w : null;
+                  // }
                 }
 
                 return Center(

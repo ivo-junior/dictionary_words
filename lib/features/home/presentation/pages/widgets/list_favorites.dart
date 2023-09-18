@@ -39,11 +39,10 @@ class ListFavorites extends StatelessWidget {
                 crossAxisCount: 3),
             itemBuilder: (context, index) {
               final word = _homeController.favoriteList[index];
-              WordModel? wordModel = _homeController.historyList.isNotEmpty
-                  ? _homeController.historyList
-                      .firstWhere((element) => element.word == word)
-                  : null;
-
+              WordModel? wordModel;
+              if (_homeController.historyList.isNotEmpty) {
+                 wordModel = _homeController.historyList[word];                  
+                }
               return Center(
                 child: WordWidget(
                   homeController: _homeController,

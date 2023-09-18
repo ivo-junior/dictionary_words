@@ -14,7 +14,7 @@ class WordModel {
       this.pronunciation,
       this.frequency});
 
-  WordModel.fromJson(Map<String, dynamic> json) {
+  WordModel.fromJson(Map json) {
     word = json['word'];
     if (json['results'] != null) {
       results = <Results>[];
@@ -42,7 +42,9 @@ class WordModel {
     if (syllables != null) {
       data['syllables'] = syllables!.toJson();
     }
-    data['pronunciation'] = pronunciation;
+    if (pronunciation != null) {
+      data['pronunciation'] = pronunciation!.toJson();
+    }
     data['frequency'] = frequency;
     return data;
   }
@@ -58,7 +60,7 @@ class Results {
       this.derivation,
       this.examples});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  Results.fromJson(Map json) {
     definition = json['definition'];
     partOfSpeech = json['partOfSpeech'];
     synonyms =
@@ -96,7 +98,7 @@ class Results {
 class Syllables {
   Syllables({this.count, this.list});
 
-  Syllables.fromJson(Map<String, dynamic> json) {
+  Syllables.fromJson(Map json) {
     count = json['count'];
     list = json['list'].cast<String>();
   }
@@ -117,7 +119,7 @@ class Pronunciation {
 
   Pronunciation({this.all});
 
-  Pronunciation.fromJson(Map<String, dynamic> json) {
+  Pronunciation.fromJson(Map json) {
     all = json['all'];
   }
 

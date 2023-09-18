@@ -27,7 +27,7 @@ class WordWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        goToWordPage();
+        goToWordPage();        
       },
       child: Container(
         decoration: BoxDecoration(
