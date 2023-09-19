@@ -1,10 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:dictionary_words/features/auth/forgot_password/presentation/widgets/forgot_password_send_mail.dart';
 import 'package:get/get.dart';
 import 'package:dictionary_words/core/routes/auth_routes.dart';
 import 'package:dictionary_words/features/auth/forgot_password/presentation/bindings/forgot_password_binding.dart';
-import 'package:dictionary_words/features/auth/forgot_password/presentation/widgets/forgot_password_change_forms.dart';
-import 'package:dictionary_words/features/auth/forgot_password/presentation/widgets/forgot_password_code_forms.dart';
 import 'package:dictionary_words/features/auth/forgot_password/presentation/widgets/forgot_password_email_forms.dart';
 import 'package:dictionary_words/features/auth/forgot_password/presentation/widgets/forgot_password_sucess.dart';
 import 'package:dictionary_words/features/auth/login/presentation/bindings/login_binding.dart';
@@ -35,12 +34,8 @@ class AuthPages {
         binding: ForgotPasswordBinding(),
         transition: Transition.upToDown),
     GetPage(
-        name: AuthRoutes.FORGOT_PASSWORD_CODE_VERIFY.value,
-        page: () => ForgotPasswordCodeForms(),
-        transition: Transition.upToDown),
-    GetPage(
-        name: AuthRoutes.FORGOT_PASSWORD_CHANGE_PASSWORD.value,
-        page: () => ForgotPasswordChangePasswordForms(),
+        name: AuthRoutes.FORGOT_PASSWORD_SEND_EMAIL.value,
+        page: () => const ForgotPasswordSendMail(),
         transition: Transition.upToDown),
     GetPage(
         name: AuthRoutes.FORGOT_PASSWORD_SUCESS.value,

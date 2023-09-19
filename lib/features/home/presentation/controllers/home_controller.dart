@@ -57,26 +57,33 @@ class HomeController extends GetxController
   }
 
   void toogleFavoritWord(WordModel word) {
-    if (favoriteList[word.word] != null) {
-      favoriteList.remove(word.word);
-      _favoritsRef.child(word.word!).remove();
-    } else {
-      favoriteList.addAll({word.word!: word});
-      _favoritsRef.child(word.word!).set(word.toJson());
+    if (auth!.currentUser != null) {
+      if (favoriteList[word.word] != null) {
+        favoriteList.remove(word.word);
+        _favoritsRef.child(auth!.currentUser!.uid).child(word.word!).remove();
+      } else {
+        favoriteList.addAll({word.word!: word});
+        _favoritsRef
+            .child(auth!.currentUser!.uid)
+            .child(word.word!)
+            .set(word.toJson());
+      }
     }
     update();
   }
 
   Future<void> initFavoritList() async {
-    var data = await _favoritsRef.once();
+    if (auth!.currentUser != null) {
+      var data = await _favoritsRef.child(auth!.currentUser!.uid).once();
 
-    if (data.snapshot.value != null) {
-      var val = data.snapshot.value as Map;
+      if (data.snapshot.value != null) {
+        var val = data.snapshot.value as Map;
 
-      val.forEach((key, value) {
-        var w = WordModel.fromJson(value);
-        favoriteList.addAll({w.word!: w});
-      });
+        val.forEach((key, value) {
+          var w = WordModel.fromJson(value);
+          favoriteList.addAll({w.word!: w});
+        });
+      }
     }
   }
 

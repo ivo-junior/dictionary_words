@@ -7,7 +7,7 @@ enum AuthRoutes {
   SIGNUP_SUCESS('/signup-sucess'),
 
   FORGOT_PASSWORD_EMAIL('/forgot-password-email'),
-  FORGOT_PASSWORD_CODE_VERIFY('/forgot-password-code-verify'),
+  FORGOT_PASSWORD_SEND_EMAIL('/forgot-password-send-email'),
   FORGOT_PASSWORD_CHANGE_PASSWORD('/forgot-password-change-password'),
   FORGOT_PASSWORD_SUCESS('/forgot-password-sucess');
 

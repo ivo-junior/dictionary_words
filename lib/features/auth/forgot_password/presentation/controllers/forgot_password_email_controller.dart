@@ -26,9 +26,8 @@ class ForgotPasswordEmailController extends GetxController {
     update();
   }
 
-  void goToCodeVerifyPage() {
-    Get.offAllNamed(AuthRoutes.FORGOT_PASSWORD_CODE_VERIFY.value,
-        arguments: emailController.text);
+  void goToConfirm() {
+    Get.offAllNamed(AuthRoutes.FORGOT_PASSWORD_SEND_EMAIL.value);
   }
 
   void resetDefaultState() {
@@ -38,7 +37,7 @@ class ForgotPasswordEmailController extends GetxController {
   void goToLogin() {
     formKey.currentState!.reset();
 
-    Get.offAllNamed(AuthRoutes.LOGIN.value);
+    Get.offAllNamed(AuthRoutes.LOGIN.value, arguments: _auth);
   }
 
   Future<void> submit() async {
@@ -46,7 +45,7 @@ class ForgotPasswordEmailController extends GetxController {
     if (formKey.currentState!.validate()) {
       try {
         await _auth.sendPasswordResetEmail(email: emailController.text);
-        goToCodeVerifyPage();
+        goToConfirm();
         formKey.currentState!.reset();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'auth/invalid-email') {
