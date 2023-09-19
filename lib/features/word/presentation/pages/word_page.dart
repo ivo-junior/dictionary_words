@@ -101,9 +101,12 @@ class WordPage extends GetView<WordController> {
                     ),
                     Column(
                       children: [
-                        const IconButton(
-                          onPressed: null,
-                          icon: Icon(
+                        IconButton(
+                          onPressed: () async {
+                            await controller.speak(
+                                controller.wordModel!.word!, true);
+                          },
+                          icon: const Icon(
                             Icons.play_circle,
                             color: AppColors.darkBlue,
                           ),
@@ -113,21 +116,16 @@ class WordPage extends GetView<WordController> {
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Stack(
                             children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: AppColors.button.gray_4,
-                                ),
-                                height: 8,
+                              GetX<WordController>(
+                                builder: (_) {
+                                  return LinearProgressIndicator(
+                                    minHeight: 8,
+                                    backgroundColor: AppColors.button.gray_4,
+                                    color: AppColors.blueViolet,
+                                    value: controller.progress.value,
+                                  );
+                                },
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: AppColors.blueViolet,
-                                ),
-                                height: 8,
-                                width: 50,
-                              )
                             ],
                           ),
                         ),
