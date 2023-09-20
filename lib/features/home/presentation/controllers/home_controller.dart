@@ -41,6 +41,9 @@ class HomeController extends GetxController
 
   final HiveService _hiveService = Get.find();
 
+  String testCurrentWordScrol = '';
+  WordModel? testCurrentWordOpen;
+
   @override
   void onInit() {
     super.onInit();

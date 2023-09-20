@@ -41,10 +41,6 @@ class ListWords extends StatelessWidget {
           query: _homeController.wordsRef,
           builder: (context, snapshot, child) {
             if (snapshot.isFetching) {
-              // _homeController.timerResponse =
-              //     Timer(const Duration(seconds: 5), () {
-              //   _homeController.handleHasInternet(false);
-              // });
               return const Center(
                 child: CircularProgressIndicator(
                   color: AppColors.darkBlue,
@@ -61,10 +57,13 @@ class ListWords extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3),
               itemBuilder: (context, index) {
+                final word = snapshot.docs[index].key as String;
                 if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                  // test variable
+                  _homeController.testCurrentWordScrol = word;
                   snapshot.fetchMore();
                 }
-                final word = snapshot.docs[index].key as String;
+
                 WordModel? wordModel;
 
                 if (_homeController.historyList.isNotEmpty) {
@@ -73,6 +72,7 @@ class ListWords extends StatelessWidget {
 
                 return Center(
                     child: WordWidget(
+                  key: Key(wordModel.isNull ? word : wordModel!.word!),
                   homeController: _homeController,
                   word: wordModel.isNull ? word : null,
                   wordModel: wordModel.isNull ? null : wordModel,

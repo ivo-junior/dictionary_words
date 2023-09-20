@@ -27,127 +27,130 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
-      child: GetBuilder<HomeController>(builder: (_) {
-        if (controller.isLoading) {
-          return const ShimmerDefalt();
-        } else {
-          if (!controller.hasInternet) {
-            controller.changeRoutBodyChild("/off_page");
-          }
-          return Scaffold(
-            backgroundColor: AppColors.areiaHome,
-            extendBodyBehindAppBar: true,
-            body: NestedScrollView(
-              controller: controller.scrollController,
-              headerSliverBuilder: (context, value) {
-                return [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        Column(children: [
-                          Container(
-                            padding: const EdgeInsets.only(
-                              top: 30,
-                            ),
-                            child: Text(
-                              'Dictionary Words',
-                              style: GoogleFonts.commissioner(
-                                  color: AppColors.text.darkBlue,
-                                  height: 2,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          const SizedBox(height: 18),
-                        ]),
-                        Stack(
-                          fit: StackFit.passthrough,
-                          alignment: Alignment.bottomCenter,
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      color: controller
-                                                  .currentRoutBodyChild.value ==
-                                              '/home'
-                                          ? Colors.white
-                                          : Colors.transparent,
-                                      width: 2.0),
+      child: GetBuilder<HomeController>(
+          key: const Key("home_page"),
+          builder: (_) {
+            if (controller.isLoading) {
+              return const ShimmerDefalt();
+            } else {
+              if (!controller.hasInternet) {
+                controller.changeRoutBodyChild("/off_page");
+              }
+              return Scaffold(
+                backgroundColor: AppColors.areiaHome,
+                extendBodyBehindAppBar: true,
+                body: NestedScrollView(
+                  controller: controller.scrollController,
+                  headerSliverBuilder: (context, value) {
+                    return [
+                      SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            Column(children: [
+                              Container(
+                                padding: const EdgeInsets.only(
+                                  top: 30,
+                                ),
+                                child: Text(
+                                  'Dictionary Words',
+                                  style: GoogleFonts.commissioner(
+                                      color: AppColors.text.darkBlue,
+                                      height: 2,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            ),
-                            TabBar(
-                              controller: controller.tabController,
-                              indicatorColor:
-                                  controller.currentRoutBodyChild.value ==
-                                          '/home'
-                                      ? const Color(0xff612BD6)
-                                      : Colors.transparent,
-                              unselectedLabelColor: Colors.white,
-                              unselectedLabelStyle:
-                                  const TextStyle(fontSize: 2.0),
-                              tabs: [
-                                Tab(
-                                  child: Text(
-                                    'Word List',
-                                    style: GoogleFonts.commissioner(
-                                        color: AppColors.text.darkBlue,
-                                        height: 2,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
+                              const SizedBox(height: 18),
+                            ]),
+                            Stack(
+                              fit: StackFit.passthrough,
+                              alignment: Alignment.bottomCenter,
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          color: controller.currentRoutBodyChild
+                                                      .value ==
+                                                  '/home'
+                                              ? Colors.white
+                                              : Colors.transparent,
+                                          width: 2.0),
+                                    ),
                                   ),
                                 ),
-                                Tab(
-                                  child: Text(
-                                    'History',
-                                    style: GoogleFonts.commissioner(
-                                        color: AppColors.text.darkBlue,
-                                        height: 2,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
-                                  ),
+                                TabBar(
+                                  controller: controller.tabController,
+                                  indicatorColor:
+                                      controller.currentRoutBodyChild.value ==
+                                              '/home'
+                                          ? const Color(0xff612BD6)
+                                          : Colors.transparent,
+                                  unselectedLabelColor: Colors.white,
+                                  unselectedLabelStyle:
+                                      const TextStyle(fontSize: 2.0),
+                                  tabs: [
+                                    Tab(
+                                      key: const Key('home_tab'),
+                                      child: Text(
+                                        'Word List',
+                                        style: GoogleFonts.commissioner(
+                                            color: AppColors.text.darkBlue,
+                                            height: 2,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        'History',
+                                        style: GoogleFonts.commissioner(
+                                            color: AppColors.text.darkBlue,
+                                            height: 2,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                    Tab(
+                                      child: Text(
+                                        'Favorites',
+                                        style: GoogleFonts.commissioner(
+                                            color: AppColors.text.darkBlue,
+                                            height: 2,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    )
+                                  ],
+                                  onTap: (value) =>
+                                      controller.currentRoutBodyChild.value ==
+                                              '/home'
+                                          ? controller.update()
+                                          : null,
                                 ),
-                                Tab(
-                                  child: Text(
-                                    'Favorites',
-                                    style: GoogleFonts.commissioner(
-                                        color: AppColors.text.darkBlue,
-                                        height: 2,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                )
                               ],
-                              onTap: (value) =>
-                                  controller.currentRoutBodyChild.value ==
-                                          '/home'
-                                      ? controller.update()
-                                      : null,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 12),
                             ),
                           ],
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                ];
-              },
-              body: Builder(builder: (context) {
-                return TabBarView(
-                    controller: controller.tabController,
-                    children: [
-                      ListWords(),
-                      ListHistory(),
-                      ListFavorites(),
-                    ]);
-              }),
-            ),
-          );
-        }
-      }),
+                      ),
+                    ];
+                  },
+                  body: Builder(builder: (context) {
+                    return TabBarView(
+                        controller: controller.tabController,
+                        children: [
+                          ListWords(),
+                          ListHistory(),
+                          ListFavorites(),
+                        ]);
+                  }),
+                ),
+              );
+            }
+          }),
     );
   }
 }

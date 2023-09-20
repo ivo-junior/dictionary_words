@@ -41,7 +41,7 @@ class WordController extends GetxController {
       alterableResult();
       isLoading = false;
     }
-
+    
     flutterTts.setCompletionHandler(() {
       stop();
     });
@@ -104,5 +104,7 @@ class WordController extends GetxController {
     currentResult.value = wordModel != null && wordModel!.results != null
         ? wordModel!.results![currentCount.value]
         : Results();
+    // test variable
+    _homeController.testCurrentWordOpen = wordModel;
   }
 }

@@ -45,10 +45,12 @@ class LoginForms extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             CustomEmailInput(
+              key: const Key('email'),
               controller: _loginController.emailController,
             ),
             const SizedBox(height: 28),
             CustomPasswordInput(
+              key: const Key('password'),
               controller: _loginController.passwordController,
             ),
             Align(
