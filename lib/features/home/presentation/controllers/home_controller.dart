@@ -21,6 +21,8 @@ class HomeController extends GetxController
   late TabController tabController = TabController(length: 3, vsync: this);
   late ScrollController scrollController = ScrollController();
 
+  final TextEditingController searchController = TextEditingController();
+
   bool isLoading = true;
   bool isLogin = false;
   bool hasInternet = true;
@@ -128,5 +130,23 @@ class HomeController extends GetxController
       updateHistoryList();
     }
     handleIsLoading(false);
+  }
+
+  Future<List<String>> searchFirebaseDatabase(String query) async {
+    final snapshot =
+        await wordsRef.orderByKey().startAt(query).endAt('$query\uf8ff').once();
+
+    if (snapshot.snapshot.value != null) {
+      Map<dynamic, dynamic> data = snapshot.snapshot.value as Map;
+      List<String> results = [];
+
+      data.forEach((key, value) {
+        results.add(key.toString());
+      });
+
+      return results;
+    } else {
+      return [];
+    }
   }
 }

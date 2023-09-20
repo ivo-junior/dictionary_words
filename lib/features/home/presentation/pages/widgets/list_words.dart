@@ -2,6 +2,7 @@
 import 'package:dictionary_words/features/home/presentation/controllers/home_controller.dart';
 import 'package:dictionary_words/features/home/presentation/pages/widgets/word_widget.dart';
 import 'package:dictionary_words/features/word/data/models/word_model.dart';
+import 'package:dictionary_words/global_components/inputs/imput_search.dart';
 import 'package:dictionary_words/global_components/snack_bar.dart';
 import 'package:dictionary_words/global_components/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -25,13 +26,28 @@ class ListWords extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          'Word List',
-          style: GoogleFonts.commissioner(
-              color: AppColors.text.darkBlue,
-              height: 2,
-              fontSize: 26,
-              fontWeight: FontWeight.w700),
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              Text(
+                'Word List',
+                style: GoogleFonts.commissioner(
+                    color: AppColors.text.darkBlue,
+                    height: 2,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                  child: InputSearch(
+                    homeController: _homeController,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       body: Padding(

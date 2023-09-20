@@ -20,6 +20,7 @@ class WordWidget extends StatelessWidget {
   });
 
   void goToWordPage() {
+    homeController.searchController.text = '';
     Get.toNamed(AppRoutes.WORD_PAGE.value, arguments: word ?? wordModel);
   }
 
@@ -27,7 +28,7 @@ class WordWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        goToWordPage();        
+        goToWordPage();
       },
       child: Container(
         decoration: BoxDecoration(
