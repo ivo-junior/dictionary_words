@@ -35,7 +35,7 @@ A aplicação possui uma funcionalidade de cache offline e para isso foi utiliza
 
 Em seguida, importe o arquivo em seu Real Time database criado. Clique nos 3 pontinhos como na imagem abaixo, selecione a opção Importar o JSON e selecione o arquivo editado.
 
-<img src="./img/import_RTBD.png" width="100%" />
+<img src="https://github.com/ivo-junior/dictionary_words/blob/main/img/import_RTDB.png" width="100%" />
 
 
 **5** - Conecte seu aplicativo flutter ao Firebase rodando o comando flutterfire configure. Se possuir alguma dúvida você pode seguir o tutorial de instalação da [documentação oficial](https://firebase.google.com/docs/flutter/setup?hl=pt-br&platform=android).
