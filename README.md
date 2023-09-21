@@ -41,7 +41,7 @@ Em seguida, importe o arquivo em seu Real Time database criado. Clique nos 3 pon
 **5** - Conecte seu aplicativo flutter ao Firebase rodando o comando flutterfire configure. Se possuir alguma dúvida você pode seguir o tutorial de instalação da [documentação oficial](https://firebase.google.com/docs/flutter/setup?hl=pt-br&platform=android).
 
 
-**5** - Execute o projeto
+**6** - Execute o projeto
 
 **Apresentação do projeto** [Acesse aqui](https://www.loom.com/embed/1a629911f475495283ab147bee9a427d).
 
